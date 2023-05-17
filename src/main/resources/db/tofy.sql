@@ -23,6 +23,7 @@ CREATE TABLE user(
     email_id VARCHAR(70) NOT NULL,
     email_domain VARCHAR(70) NOT NULL,
     admin_fl CHAR(1) DEFAULT 'N',
+    reg_time DATETIME DEFAULT now(),		
     token VARCHAR(1000) NULL
 );
 
