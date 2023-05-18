@@ -12,7 +12,7 @@
         <result column="email_domain" property="emailDomain" jdbcType="VARCHAR" javaType="String"/>
         <result column="admin_fl" property="adminFl" jdbcType="CHAR" javaType="String"/>
         <result column="token" property="token" jdbcType="VARCHAR" javaType="String"/>
-        <result column="reg_time" property="regTime" jdbcType="DATETIME" javaType="String"/>
+        <result column="reg_time" property="regTime" jdbcType="TIMESTAMP" javaType="String"/>
     </resultMap>
 
     <insert id="join" parameterType="user">
@@ -21,6 +21,9 @@
     </insert>
     <select id="login" parameterType="user" resultMap="userMap">
         select * from user where user_id = #{userId} and user_pw = #{userPw}
+    </select>
+    <select id="idCheck" parameterType="String" resultMap="userMap">
+        select * from user where user_id = #{userId}
     </select>
     <select id="getAllUsers" resultMap="userMap">
         select * from user
