@@ -11,6 +11,11 @@
     <typeAlias type="com.ssafy.tofy.user.dto.User" alias="user" />
 	<typeAlias type="com.ssafy.tofy.notice.dto.NoticeDto" alias="noticeDto"/>
     <typeAlias type="com.ssafy.tofy.worldcup.dto.WorldCupResult" alias="worldcup"/>
+	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionDto" alias="attractionDto"/>
+	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionDescDto" alias="attractionDescDto"/>
+	<typeAlias type="com.ssafy.tofy.attraction.dto.Sido" alias="sidoDto"/>
+	<typeAlias type="com.ssafy.tofy.attraction.dto.Gugun" alias="gugunDto"/>
+	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionReviewDto" alias="attractionReviewDto"/>
   </typeAliases>
   
   <!-- Mapper 파일 경로 설정  -->
@@ -19,6 +24,7 @@
     <mapper resource="mapper/user.xml"/>
 	<mapper resource="mapper/notice.xml"/>
     <mapper resource="mapper/worldcup.xml"/>
+	<mapper resource="mapper/attraction.xml"/>
   </mappers>
 
 </configuration>

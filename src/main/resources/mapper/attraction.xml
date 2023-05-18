@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ssafy.tofy.attraction.repository.AttractionRepository">
+	<select id="selectSidoList" resultType="sidoDto">
+		select sido_code, sido_name from sido
+	</select>
+	
+ 	<select id="selectGugunListBySidoCode" parameterType="String" resultType="gugunDto">
+		select g.gugun_code, g.gugun_name from gugun g join sido s
+		on g.sido_code = s.sido_code
+		where g.sido_code = #{sidoCode};
+ 	</select>
+ 	
+ 	<select id = "listReview" parameterType="String" resultType="attractionReviewDto">
+ 		select * from attraction_review
+		where content_id = #{content_id}
+ 	</select>
+ 	
+  	 <insert id="writeReview" parameterType="attractionReviewDto">
+  	 	insert into attraction_review (content_id, user_no, attraction_review_content, attraction_review_score, attraction_review_img) values
+  	 	(#{contentId}, #{userNo}, #{attractionReviewContent}, #{attractionReviewScore}, #{attractionReviewImg})
+	 </insert>
+	 
+	 <update id="modifyReview" parameterType="attractionReviewDto">
+ 	 	update attraction_review
+	 	<trim prefix="set" suffixOverrides=",">
+			<if test="attractionReviewScore != null">attraction_review_score = #{attractionReviewScore},</if>
+			<if test="attractionReviewContent != null">attraction_review_content= #{attractionReviewContent},</if>
+	 	</trim>
+	 	where attraction_review_no = #{attractionReviewNo}
+	 </update>
+	 
+ 	<delete id= "deleteComment" parameterType="String">
+  		delete from attraction_review 
+  		where contentId = and comment_no = #{commentNo}	
+ 	</delete>
+</mapper>
