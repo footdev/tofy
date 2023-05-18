@@ -11,7 +11,7 @@ import com.ssafy.tofy.notice.dto.NoticeDto;
 public interface NoticeService {
 	void writeNotice(NoticeDto notice) throws Exception;
 	List<NoticeDto> listNotice() throws Exception;
-	FreeBoardDto getNotice(String noticeNo) throws Exception;
+	NoticeDto getNotice(String noticeNo) throws Exception;
 	void updateHit(String noticeNo) throws Exception;
 	void updateNotice(NoticeDto notice) throws Exception;
 	void deleteNotice(String noticeNo) throws Exception;

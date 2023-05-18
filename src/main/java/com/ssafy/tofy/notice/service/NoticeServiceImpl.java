@@ -2,10 +2,13 @@ package com.ssafy.tofy.notice.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.ssafy.tofy.freeboard.dto.FreeBoardDto;
 import com.ssafy.tofy.notice.dto.NoticeDto;
 import com.ssafy.tofy.notice.repository.NoticeRepository;
 
+@Service("NoticeServiceImpl")
 public class NoticeServiceImpl implements NoticeService {
 
 	private NoticeRepository noticeRepo;
@@ -26,7 +29,7 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public FreeBoardDto getNotice(String noticeNo) throws Exception {
+	public NoticeDto getNotice(String noticeNo) throws Exception {
 		return noticeRepo.getNotice(noticeNo);
 	}
 
