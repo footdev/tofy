@@ -25,6 +25,9 @@
     <select id="idCheck" parameterType="String" resultMap="userMap">
         select * from user where user_id = #{userId}
     </select>
+    <select id="userInfo" parameterType="String" resultMap="userMap">
+        select * from user where user_id = #{userId}
+    </select>
     <select id="getAllUsers" resultMap="userMap">
         select * from user
     </select>

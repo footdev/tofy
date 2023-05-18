@@ -13,6 +13,7 @@ public interface UserRepository {
     public void join(User user);
     public User login(User user);
     public User idCheck(String userId);
+    public User userInfo(String userId) throws SQLException;
     public List<User> getAllUsers();
     public void update(User user);
     public void delete(String userId);

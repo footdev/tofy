@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 @Log4j2
@@ -112,21 +114,22 @@ public class UserController {
     }
 
     //id 중복체크
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user/idcheck/{userId}")
     public ResponseEntity<Object> idCheck(@PathVariable String userId) {
 
         Response res = Response.builder()
                 .status(Status.SUCCESS.getStatus())
                 .message("user id is unique")
-                .data(null)
+                .data(new HashMap<>())
                 .build();
 
         try {
             User retUser = userService.idCheck(userId);
 
-            if (retUser == null) {
+            if (retUser != null) {
                 res.setStatus(Status.FAIL.getStatus());
                 res.setMessage("user id is not unique");
+                res.getData().put("user", retUser);
             }
 
         }catch (Exception e) {
@@ -164,27 +167,23 @@ public class UserController {
                 .body(res);
     }
 
-    //회원정보 조회
-    @GetMapping("/user/{userNo}")
-    public ResponseEntity<Object> getUser(@PathVariable String userNo) {
-        return null;
-    }
-
     //회원 탈퇴
-    @DeleteMapping("/user/{userNo}")
-    public ResponseEntity<Object> deleteUser(@PathVariable String userNo) {
+    @DeleteMapping("/user/{userId}")
+    public ResponseEntity<Object> deleteUser(@PathVariable String userId) {
         Response res = Response.builder()
                 .data(new HashMap<>())
                 .build();
 
         try {
-            userService.delete(userNo);
+            userService.delete(userId);
+
+            log.info("{} 회원 탈퇴 요청", userId);
 
             res.setStatus(Status.SUCCESS.getStatus());
             res.setMessage("user info delete success");
 
         } catch (Exception e) {
-            log.error("user info delete error {}", e.getMessage());
+            log.error("{} 회원 탈퇴 에러", e.getMessage());
 
             res.setStatus(Status.ERROR.getStatus());
             res.setMessage("user info delete error");
@@ -204,5 +203,69 @@ public class UserController {
     @DeleteMapping("/user/{userNo}/worldcup/{worldcupNo}")
     public ResponseEntity<Object> deleteWinnerAttractions(@PathVariable String userNo, @PathVariable String worldcupNo) {
         return null;
+    }
+
+    //access 토큰 재발급
+    @PostMapping("/user/refresh")
+    public ResponseEntity<Object> refreshToken(@RequestBody User user, HttpServletRequest request) throws SQLException {
+        Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("user refresh token issue")
+                .data(new HashMap<>())
+                .build();
+        String token = request.getHeader("refresh-token");
+
+        log.debug("user : {} token : {}", user, token);
+
+       if (jwtService.checkToken(token)) {
+           //클라이언트로 부터 온 refresh token과 서버에 저장되어 있는 refresh token이 같은지 검사
+           if (token.equals(userService.getRefreshToken(user.getUserId()))) {
+                String accessToken = jwtService.createAccessToken("userid", user.getUserId());
+
+                log.info("new access token {}", accessToken);
+                log.info("새로운 접근 토큰 생성 완료");
+
+                res.getData().put("access-token", accessToken);
+           }
+       } else {
+           log.warn("refresh 토큰도 사용 불가");
+           res.setStatus(Status.FAIL.getStatus());
+           res.setMessage("refresh token unauthorized");
+       }
+
+       return ResponseEntity.ok()
+               .body(res);
+    }
+
+    //회원 정보 유효성 조회
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Object> userInfo(@PathVariable String userId, HttpServletRequest request) {
+        Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("valid token")
+                .data(new HashMap<>())
+                .build();
+
+        if (jwtService.checkToken(request.getHeader("access-token"))) {
+            try {
+                log.info("사용 가능한 토큰");
+
+               User user = userService.userInfo(userId);
+               res.getData().put("user", user);
+
+            } catch (Exception e) {
+                log.error("정보 조회 실패");
+                res.setStatus(Status.ERROR.getStatus());
+                res.setMessage("userInfo error");
+            }
+        } else {
+            log.error("사용 불가능 토큰");
+            log.error("넘어온 토큰 {}", request.getHeader("access-token"));
+            res.setStatus(Status.FAIL.getStatus());
+            res.setMessage("unvalid access token");
+        }
+
+        return ResponseEntity.ok()
+                .body(res);
     }
 }
