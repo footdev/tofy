@@ -8,8 +8,9 @@
   <typeAliases>
 	<typeAlias type="com.ssafy.tofy.freeboard.dto.FreeBoardDto" alias="freeBoardDto"/>
 	<typeAlias type="com.ssafy.tofy.freeboard.dto.FreeBoardCommentDto" alias="freeBoardCommentDto"/>
-      <typeAlias type="com.ssafy.tofy.user.dto.User" alias="user" />
+    <typeAlias type="com.ssafy.tofy.user.dto.User" alias="user" />
 	<typeAlias type="com.ssafy.tofy.notice.dto.NoticeDto" alias="noticeDto"/>
+    <typeAlias type="com.ssafy.tofy.worldcup.dto.WorldCupResult" alias="worldcup"/>
   </typeAliases>
   
   <!-- Mapper 파일 경로 설정  -->
@@ -17,6 +18,7 @@
 	<mapper resource="mapper/freeboard.xml"/>
     <mapper resource="mapper/user.xml"/>
 	<mapper resource="mapper/notice.xml"/>
+    <mapper resource="mapper/worldcup.xml"/>
   </mappers>
 
 </configuration>
