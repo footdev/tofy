@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 
 @Log4j2
-@Controller
+@RestController
 public class UserController {
 
     @Autowired
@@ -27,20 +27,17 @@ public class UserController {
     public ResponseEntity<Object> join(@RequestBody User user) {
 
         Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("user join success")
                 .data(null)
                 .build();
 
         try {
             userService.join(user);
-
             log.info("회원가입 완료 !!!");
 
-            res.setStatus(Status.SUCCESS.getStatus());
-            res.setMessage("user join success");
-
-
         } catch (Exception e) {
-            log.error("user join error {]", e);
+            log.error("회원 가입 에러 {}", e.getMessage());
 
             res.setStatus(Status.ERROR.getStatus());
             res.setMessage("user join error");
@@ -79,7 +76,6 @@ public class UserController {
             } else {
                 res.setStatus(Status.FAIL.getStatus());
                 res.setMessage("login fail");
-
             }
 
         } catch (Exception e) {
@@ -109,6 +105,35 @@ public class UserController {
 
             res.setStatus(Status.ERROR.getStatus());
             res.setMessage("user logout error");
+        }
+
+        return ResponseEntity.ok()
+                .body(res);
+    }
+
+    //id 중복체크
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Object> idCheck(@PathVariable String userId) {
+
+        Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("user id is unique")
+                .data(null)
+                .build();
+
+        try {
+            User retUser = userService.idCheck(userId);
+
+            if (retUser == null) {
+                res.setStatus(Status.FAIL.getStatus());
+                res.setMessage("user id is not unique");
+            }
+
+        }catch (Exception e) {
+            log.error("아이디 중복체크 에러 {}", e.getMessage());
+
+            res.setStatus(Status.ERROR.getStatus());
+            res.setMessage("user id check error");
         }
 
         return ResponseEntity.ok()
@@ -169,15 +194,15 @@ public class UserController {
                 .body(res);
     }
 
-    //유저 아이디 중복 체크
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<Object> idCheck(@PathVariable String userId) {
-        return null;
-    }
-
     //여행지 월드컵 결과 list 조회
     @GetMapping("/user/{userNo}/worldcup")
     public ResponseEntity<Object> getWinnerAttractions(@PathVariable String userNo) {
+        return null;
+    }
+
+    //여행지 월드컵 list 중 선택한 요소 삭제
+    @DeleteMapping("/user/{userNo}/worldcup/{worldcupNo}")
+    public ResponseEntity<Object> deleteWinnerAttractions(@PathVariable String userNo, @PathVariable String worldcupNo) {
         return null;
     }
 }

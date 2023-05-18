@@ -32,6 +32,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User idCheck(String userId) {
+        return sqlSession.getMapper(UserRepository.class).idCheck(userId);
+    }
+
+    @Override
     public List<User> getAllUsers() {
         return sqlSession.getMapper(UserRepository.class).getAllUsers();
     }
@@ -48,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveRefreshToken(String userId, String refreshToken) throws SQLException {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put("userid", userId);
         map.put("token", refreshToken);
         sqlSession.getMapper(UserRepository.class).saveRefreshToken(map);
