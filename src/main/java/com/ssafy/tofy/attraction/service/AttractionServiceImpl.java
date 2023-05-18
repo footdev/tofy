@@ -33,20 +33,14 @@ public class AttractionServiceImpl implements AttractionService{
 	}
 
 	@Override
-	public List<AttractionDto> attractionInfo(Map<String, String> hMap) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public AttractionDescDto selectDescription(String contentId) throws Exception {
 		return attractionRepo.selectDescription(contentId);
 	}
 
 	@Override
-	public List<AttractionDto> selectTrips(List<String> tList) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<AttractionDto> selectTripList(Map<String, String> param) {
+		System.out.println(param.get("sido"));
+		return attractionRepo.selectTripList(param);
 	}
 
 	@Override
