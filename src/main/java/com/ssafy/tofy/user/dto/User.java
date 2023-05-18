@@ -15,7 +15,7 @@ public class User {
     String emailId;
     String emailDomain;
     String adminFl;
-    String Token;
+    String token;
     String regTime;
 
 }
