@@ -36,10 +36,6 @@ public class FreeBoardController {
 			log.info("자유게시판 리스트 출력 호출");
 			List<FreeBoardDto> list = freeBoardService.listBoard();
 			
-			System.out.println(list.size());
-			for(int i = 0; i < list.size(); i++) {
-				System.out.println(list.get(i));
-			}
 			for (FreeBoardDto freeBoardDto : list) {
 				log.info(freeBoardDto.toString());
 			}
@@ -143,7 +139,7 @@ public class FreeBoardController {
 	@DeleteMapping("/freeboard/{freeboardNo}/comment/{commentNo}")
 	public ResponseEntity<Object> deleteBoardComment(@PathVariable String freeboardNo, @PathVariable String commentNo) {
 		try {
-			log.info(freeboardNo + "번 게시글 삭제");
+			log.info(freeboardNo + "번 게시글 댓글 삭제");
 			freeBoardService.deleteBoardComment(freeboardNo, commentNo);
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {

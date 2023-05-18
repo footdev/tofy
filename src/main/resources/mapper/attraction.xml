@@ -32,8 +32,8 @@
 	 	where attraction_review_no = #{attractionReviewNo}
 	 </update>
 	 
- 	<delete id= "deleteComment" parameterType="String">
+ 	<delete id= "deleteReview" parameterType="String">
   		delete from attraction_review 
-  		where contentId = and comment_no = #{commentNo}	
+  		where attraction_review_no = #{reviewNo}	
  	</delete>
 </mapper>
