@@ -3,11 +3,17 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.ssafy.tofy.attraction.repository.AttractionRepository">
+ 	<resultMap type="gugunDto" id="gugunMap">
+ 		<result column="gugun_code" property="gugunCode"  jdbcType="INTEGER" javaType="String"/>
+	 	<result column="gugun_name" property="gugunName" jdbcType="VARCHAR" javaType="String"/>
+		<result column="sido_code" property="sidoCode" jdbcType="INTEGER" javaType="String"/>
+ 	</resultMap>
+ 		
 	<select id="selectSidoList" resultType="sidoDto">
 		select sido_code, sido_name from sido
 	</select>
 	
- 	<select id="selectGugunListBySidoCode" parameterType="String" resultType="gugunDto">
+ 	<select id="selectGugunListBySidoCode" parameterType="String" resultMap="gugunMap">
 		select g.gugun_code, g.gugun_name from gugun g join sido s
 		on g.sido_code = s.sido_code
 		where g.sido_code = #{sidoCode};
@@ -36,4 +42,29 @@
   		delete from attraction_review 
   		where attraction_review_no = #{reviewNo}	
  	</delete>
+ 	
+ 	 <!-- 검색 조건을 바탕으로 여행지 정보를 조회하는 SQL 외부에서 들어오는 파라미터 = Map (hashMap) 
+	 	  Map에 담겨진 key 값으로 #{} 접근 가능
+	 -->
+	 <select id="selectTripList" parameterType="map" resultType="attractionDto">
+	 	SELECT * FROM attraction_info
+	 	WHERE 1=1
+	 	<if test='sido != "" and sido != "0"'>
+	 		AND sido_code = #{sido}
+	 	</if>
+	 	<if test='gugun != "" and gugun != "0"'>
+	 		AND gugun_code = #{gugun}
+	 	</if>
+	 	<if test='type != "" and type != "0"'>
+	 		AND content_type_id = #{type}
+	 	</if>
+	 	<if test='keyword != "" and keyword !=""'>
+	 		AND title LIKE CONCAT("%", #{keyword}, "%")
+	 	</if>
+	 </select>
+	 
+	 <select id="selectDescription" parameterType="String" resultType="attractionDescDto">
+ 		select content_id, overview from attraction_description
+ 		WHERE content_id = #{contentId}
+	 </select>
 </mapper>

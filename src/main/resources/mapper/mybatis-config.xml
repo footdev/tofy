@@ -16,6 +16,7 @@
 	<typeAlias type="com.ssafy.tofy.attraction.dto.Sido" alias="sidoDto"/>
 	<typeAlias type="com.ssafy.tofy.attraction.dto.Gugun" alias="gugunDto"/>
 	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionReviewDto" alias="attractionReviewDto"/>
+	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionDescDto" alias="attractionDescDto"/>
   </typeAliases>
   
   <!-- Mapper 파일 경로 설정  -->
