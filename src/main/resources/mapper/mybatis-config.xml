@@ -8,11 +8,13 @@
   <typeAliases>
 	<typeAlias type="com.ssafy.tofy.freeboard.dto.FreeBoardDto" alias="freeBoardDto"/>
 	<typeAlias type="com.ssafy.tofy.freeboard.dto.FreeBoardCommentDto" alias="freeBoardCommentDto"/>
+	<typeAlias type="com.ssafy.tofy.notice.dto.NoticeDto" alias="noticeDto"/>
   </typeAliases>
   
   <!-- Mapper 파일 경로 설정  -->
   <mappers>
 	<mapper resource="mapper/freeboard.xml"></mapper>
+	<mapper resource="mapper/notice.xml"></mapper>
   </mappers>
   
   
