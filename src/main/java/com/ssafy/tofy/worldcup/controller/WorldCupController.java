@@ -1,9 +1,112 @@
 package com.ssafy.tofy.worldcup.controller;
 
+import com.ssafy.tofy.attraction.dto.AttractionDto;
+import com.ssafy.tofy.util.Response;
+import com.ssafy.tofy.util.Status;
+import com.ssafy.tofy.worldcup.dto.WorldCupResult;
+import com.ssafy.tofy.worldcup.service.WorldCupService;
+
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
 
 @Log4j2
 @RestController
 public class WorldCupController {
+
+    WorldCupService worldCupService;
+
+    public WorldCupController(WorldCupService worldCupService) {
+        this.worldCupService = worldCupService;
+    }
+
+    @GetMapping("/worldcup")
+    public ResponseEntity<Object> pickRandomAttractions() {
+        Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("success randomly picked Attractions")
+                .data(new HashMap<>())
+                .build();
+
+        try {
+            List<AttractionDto> attractions = worldCupService.pickRandomAttractions();
+            res.getData().put("attractions", attractions);
+            log.info("랜덤한 16개의 관광지 불러오기 성공 ");
+        } catch (Exception e) {
+            log.error("랜덤한 16개의 관광지 불러오는데에 에러 발생");
+            res.setStatus(Status.ERROR.getStatus());
+            res.setMessage("error randomly picked Attractions");
+        }
+
+        return ResponseEntity.ok()
+                .body(res);
+    }
+
+    @PostMapping("/worldcup")
+    public ResponseEntity<Object> saveWorldCupResult(@RequestBody WorldCupResult worldCupResult) {
+        Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("success to save worldcup result")
+                .data(null)
+                .build();
+
+        try {
+            worldCupService.saveWorldCupResult(worldCupResult);
+            log.info("월드컵 결과 저장 성공");
+        } catch (Exception e) {
+            log.error("월드컵 결과 저장 중 에러 발생 !! {}", e.getMessage());
+            res.setStatus(Status.ERROR.getStatus());
+            res.setMessage("worldcup result save error");
+        }
+
+        return ResponseEntity.ok()
+                .body(res);
+    }
+
+    @DeleteMapping("/worldcup")
+    public ResponseEntity<Object> deleteWorldCupResult(@PathVariable WorldCupResult[] worldCupResults) {
+        Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("success to delete worldcup result")
+                .data(null)
+                .build();
+
+        try {
+            worldCupService.deleteSelectedWorldCup(worldCupResults);
+            log.info("선택한 {} 번의 월드컵 결과들 삭제 완료", worldCupResults);
+        } catch (Exception e) {
+            log.error("선택한 월드컵 결과 삭제 중 에러 발생");
+            res.setStatus(Status.ERROR.getStatus());
+            res.setMessage("selected worldcup result delete error");
+        }
+
+        return ResponseEntity.ok()
+                .body(res);
+    }
+
+    @DeleteMapping("/worldcup/{userId}")
+    public ResponseEntity<Object> deleteWorldCupByUserId(@PathVariable String userId) {
+        Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("success to save worldcup result")
+                .data(null)
+                .build();
+
+        try {
+            worldCupService.deleteWorldCupByUserId(userId);
+            log.info("해당 유저의 모든 월드컵 결과 삭제 완료");
+        } catch (Exception e) {
+            log.error("유저의 모든 월드컵 결과 삭제 중 에러 발생");
+            res.setStatus(Status.ERROR.getStatus());
+            res.setMessage("worldcup result by userID delete error");
+        }
+
+        return ResponseEntity.ok()
+                .body(res);
+    }
+
 }
