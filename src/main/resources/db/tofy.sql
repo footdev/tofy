@@ -150,7 +150,7 @@ ALTER TABLE select_tag
 
 -- 회원_월드컵하다
 CREATE TABLE trip_worldcup (
-    trip_worldcup_no INT NOT NULL,
+    worldcup_no INT NOT NULL,
     user_no INT NOT NULL,
     content_id INT NOT NULL,
     worldcup_create DATETIME DEFAULT now()
@@ -160,11 +160,11 @@ CREATE TABLE trip_worldcup (
 ALTER TABLE trip_worldcup
     ADD CONSTRAINT PK_trip_worldcup -- 회원_월드컵하다 기본키
     PRIMARY KEY (
-    trip_worldcup_no -- 월드컵번호
+    worldcup_no -- 월드컵번호
     );
 
 ALTER TABLE trip_worldcup
-    MODIFY COLUMN trip_worldcup_no INT NOT NULL AUTO_INCREMENT;
+    MODIFY COLUMN worldcup_no INT NOT NULL AUTO_INCREMENT;
 
 -- 월드컵_우승
 CREATE TABLE win_cnt_by_tag (
