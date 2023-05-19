@@ -8,6 +8,6 @@ import lombok.Data;
 public class Tag {
 	
 	private String tagNo;
-	private String tanNm;
+	private String tagNm;
 
 }

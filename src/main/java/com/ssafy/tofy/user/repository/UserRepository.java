@@ -1,5 +1,6 @@
 package com.ssafy.tofy.user.repository;
 
+import com.ssafy.tofy.user.dto.SelectTag;
 import com.ssafy.tofy.user.dto.User;
 import org.mapstruct.Mapper;
 
@@ -20,4 +21,7 @@ public interface UserRepository {
     public void saveRefreshToken(Map<String, String> map) throws SQLException;
     public Object getRefreshToken(String userid) throws SQLException;
     public void deleteRefreshToken(Map<String, String> map) throws SQLException;
+	public void selectTag(Map<String, Object> param);
+	public SelectTag[] getTag(String userId);
+	
 }
