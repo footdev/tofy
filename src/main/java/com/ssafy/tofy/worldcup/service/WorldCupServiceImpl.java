@@ -25,6 +25,11 @@ public class WorldCupServiceImpl implements WorldCupService {
     }
 
     @Override
+    public List<WorldCupResult> pickWorldCupResultsByUserNo(String userNo) {
+        return sqlSession.getMapper(WorldCupRepository.class).pickWorldCupResultsByUserNo(userNo);
+    }
+
+    @Override
     public void saveWorldCupResult(WorldCupResult worldCupResult) {
         log.info("콘텐츠 id : {} 유저 식별번호 : {}", worldCupResult.getContentId(), worldCupResult.getUserNo());
         sqlSession.getMapper(WorldCupRepository.class).saveWorldCupResult(worldCupResult);
@@ -32,11 +37,15 @@ public class WorldCupServiceImpl implements WorldCupService {
 
     @Override
     public void deleteSelectedWorldCup(WorldCupResult[] worldCupResults) {
+        for (WorldCupResult worldCupResult: worldCupResults) {
+            log.info("삭제 할 유저 식별 번호 : {}", worldCupResult.getUserNo());
+            log.info("삭제 할 여행지 식별 번호 : {}", worldCupResult.getWorldCupNo());
+        }
         sqlSession.getMapper(WorldCupRepository.class).deleteSelectedWorldCup(worldCupResults);
     }
 
     @Override
-    public void deleteWorldCupByUserId(String userId) {
-        sqlSession.getMapper(WorldCupRepository.class).deleteWorldCupByUserId(userId);
+    public void deleteWorldCupByUserNo(String userNo) {
+        sqlSession.getMapper(WorldCupRepository.class).deleteWorldCupByUserNo(userNo);
     }
 }

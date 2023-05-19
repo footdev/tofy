@@ -10,18 +10,22 @@
         order by rand()
         limit 16
     </select>
+    <select id="pickWorldCupResultsByUserNo" parameterType="String" resultType="worldcup">
+        select * from trip_worldcup where user_no = #{userNo}
+    </select>
     <insert id="saveWorldCupResult" parameterType="worldcup">
         insert into trip_worldcup (user_no, content_id)
         values (#{userNo}, #{contentId})
     </insert>
-    <delete id="deleteSelectedWorldCup" parameterType="worldcup">
+    <delete id="deleteSelectedWorldCup" parameterType="map">
         delete from trip_worldcup
         where worldcup_no in
         <foreach collection="array" item="item" open="(" close=")" separator=",">
             #{item.worldCupNo}
         </foreach>
     </delete>
-    <delete id="deleteWorldCupByUserId" parameterType="String">
-        delete from trip_worldcup where user_id = #{userId}
+    <delete id="deleteWorldCupByUserNo" parameterType="String">
+        delete from trip_worldcup where user_no = #{userNo}
     </delete>
+
 </mapper>

@@ -10,8 +10,9 @@ import java.util.List;
 public interface WorldCupRepository {
 
     public List<AttractionDto> pickRandomAttractions();
+    public List<WorldCupResult> pickWorldCupResultsByUserNo(String userNo);
     public void saveWorldCupResult(WorldCupResult worldCupResult);
     public void deleteSelectedWorldCup(WorldCupResult[] worldCupResults);
-    public void deleteWorldCupByUserId(String userId);
+    public void deleteWorldCupByUserNo(String userNo);
 
 }
