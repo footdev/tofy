@@ -5,10 +5,11 @@ import com.ssafy.tofy.user.service.UserService;
 import com.ssafy.tofy.util.JwtService;
 import com.ssafy.tofy.util.Response;
 import com.ssafy.tofy.util.Status;
+
 import lombok.extern.log4j.Log4j2;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,10 @@ public class UserController {
     UserService userService;
     @Autowired
     JwtService  jwtService;
+
+    private static final String ACCESS_TOKEN = "access-token";
+    private static final String REFRESH_TOKEN = "refresh-token";
+    private static final String USER_ID = "userid";
 
     //회원가입
     @PostMapping(value = "/user/join")
@@ -54,6 +59,8 @@ public class UserController {
     public ResponseEntity<Object> login(@RequestBody User user) {
 
         Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("login success")
                 .data(new HashMap<>())
                 .build();
 
@@ -61,21 +68,19 @@ public class UserController {
             User retUser = userService.login(user);
 
             if (retUser != null) {
-                String accessToken = jwtService.createAccessToken("userid", retUser.getUserId());
-                String refreshToken = jwtService.createRefreshToken("userid", retUser.getUserId());
+                String accessToken = jwtService.createAccessToken(USER_ID, retUser.getUserId());
+                String refreshToken = jwtService.createRefreshToken(USER_ID, retUser.getUserId());
 
                 userService.saveRefreshToken(retUser.getUserId(), refreshToken);
 
                 log.info("로그인 accessToken 정보 {} ", accessToken);
                 log.info("로그인 refreshToken 정보 {} ", refreshToken);
 
-                res.setStatus(Status.SUCCESS.getStatus());
-                res.setMessage("login success");
-
-                res.getData().put("access-token", accessToken);
-                res.getData().put("refresh-token", refreshToken);
+                res.getData().put(ACCESS_TOKEN, accessToken);
+                res.getData().put(REFRESH_TOKEN, refreshToken);
 
             } else {
+                log.error("회원 정보 틀림");
                 res.setStatus(Status.FAIL.getStatus());
                 res.setMessage("login fail");
             }
@@ -193,18 +198,6 @@ public class UserController {
                 .body(res);
     }
 
-    //여행지 월드컵 결과 list 조회
-    @GetMapping("/user/{userNo}/worldcup")
-    public ResponseEntity<Object> getWinnerAttractions(@PathVariable String userNo) {
-        return null;
-    }
-
-    //여행지 월드컵 list 중 선택한 요소 삭제
-    @DeleteMapping("/user/{userNo}/worldcup/{worldcupNo}")
-    public ResponseEntity<Object> deleteWinnerAttractions(@PathVariable String userNo, @PathVariable String worldcupNo) {
-        return null;
-    }
-
     //access 토큰 재발급
     @PostMapping("/user/refresh")
     public ResponseEntity<Object> refreshToken(@RequestBody User user, HttpServletRequest request) throws SQLException {
@@ -213,19 +206,19 @@ public class UserController {
                 .message("user refresh token issue")
                 .data(new HashMap<>())
                 .build();
-        String token = request.getHeader("refresh-token");
+        String token = request.getHeader(ACCESS_TOKEN);
 
         log.debug("user : {} token : {}", user, token);
 
        if (jwtService.checkToken(token)) {
            //클라이언트로 부터 온 refresh token과 서버에 저장되어 있는 refresh token이 같은지 검사
            if (token.equals(userService.getRefreshToken(user.getUserId()))) {
-                String accessToken = jwtService.createAccessToken("userid", user.getUserId());
+                String accessToken = jwtService.createAccessToken(USER_ID, user.getUserId());
 
                 log.info("new access token {}", accessToken);
                 log.info("새로운 접근 토큰 생성 완료");
 
-                res.getData().put("access-token", accessToken);
+                res.getData().put(ACCESS_TOKEN, accessToken);
            }
        } else {
            log.warn("refresh 토큰도 사용 불가");
@@ -246,7 +239,7 @@ public class UserController {
                 .data(new HashMap<>())
                 .build();
 
-        if (jwtService.checkToken(request.getHeader("access-token"))) {
+        if (jwtService.checkToken(request.getHeader(ACCESS_TOKEN))) {
             try {
                 log.info("사용 가능한 토큰");
 
@@ -260,7 +253,7 @@ public class UserController {
             }
         } else {
             log.error("사용 불가능 토큰");
-            log.error("넘어온 토큰 {}", request.getHeader("access-token"));
+            log.error("넘어온 토큰 {}", request.getHeader(ACCESS_TOKEN));
             res.setStatus(Status.FAIL.getStatus());
             res.setMessage("unvalid access token");
         }
