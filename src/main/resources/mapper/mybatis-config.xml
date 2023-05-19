@@ -9,6 +9,8 @@
 	<typeAlias type="com.ssafy.tofy.freeboard.dto.FreeBoardDto" alias="freeBoardDto"/>
 	<typeAlias type="com.ssafy.tofy.freeboard.dto.FreeBoardCommentDto" alias="freeBoardCommentDto"/>
     <typeAlias type="com.ssafy.tofy.user.dto.User" alias="user" />
+   	<typeAlias type="com.ssafy.tofy.user.dto.Tag" alias="tag"/>
+ 	<typeAlias type="com.ssafy.tofy.user.dto.SelectTag" alias="selectTag"/> 
 	<typeAlias type="com.ssafy.tofy.notice.dto.NoticeDto" alias="noticeDto"/>
     <typeAlias type="com.ssafy.tofy.worldcup.dto.WorldCupResult" alias="worldcup"/>
 	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionDto" alias="attractionDto"/>

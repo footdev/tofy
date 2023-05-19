@@ -1,5 +1,22 @@
 package com.ssafy.tofy.user.controller;
 
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ssafy.tofy.user.dto.SelectTag;
 import com.ssafy.tofy.user.dto.User;
 import com.ssafy.tofy.user.service.UserService;
 import com.ssafy.tofy.util.JwtService;
@@ -261,4 +278,50 @@ public class UserController {
         return ResponseEntity.ok()
                 .body(res);
     }
+
+    // 회원 가입 시 태그 선택
+    // 태그가 있을 때, 태그 no을 value값을 받아서 선택한 value값을 int 배열로 받아와서 방식으로 처리함
+    @PostMapping("/user/{userId}/tag")
+    public ResponseEntity<Object> selectTag(@PathVariable String userId, @RequestBody int[] tags) {
+        Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("user select tag success")
+                .data(new HashMap<>())
+                .build();
+
+        Map<String, Object> param = new HashMap();
+        param.put("userId", userId);
+        param.put("tagArr", tags);
+
+        try {
+        	userService.selectTag(param);
+        } catch (Exception e) {
+            res.setStatus(Status.ERROR.getStatus());
+            res.setMessage("user select tag error");
+			log.error("태그 선택 오류");
+		}
+		return ResponseEntity.ok().body(res);
+    }
+
+    // 회원 자신이 선택한 태그 보이기
+    @GetMapping("/user/{userId}/tag")
+    public ResponseEntity<Object> selectTag(@PathVariable String userId) {
+    	Response res = Response.builder()
+    			.status(Status.SUCCESS.getStatus())
+    			.message("show user's tag success")
+    			.data(new HashMap<>())
+    			.build();
+
+    	try {
+    		SelectTag[] tagList = userService.getTag(userId);
+
+    		res.getData().put(userId + "'s selectTag", tagList);
+
+    		} catch (Exception e) {
+                res.setStatus(Status.ERROR.getStatus());
+                res.setMessage("show user's tag error");
+    			log.error("태그 선택 오류");
+			}
+			return ResponseEntity.ok().body(res);
+	  }
 }

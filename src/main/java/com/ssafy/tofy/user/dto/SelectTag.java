@@ -9,5 +9,6 @@ public class SelectTag {
 	
 	private String userNo;
 	private String tagNo;
+	private String tagNm;
 
 }
