@@ -298,7 +298,7 @@ public class UserController {
         } catch (Exception e) {
             res.setStatus(Status.ERROR.getStatus());
             res.setMessage("user select tag error");
-			log.error("태그 선택 오류");
+			log.error("태그 선택 오류 {}", e.getMessage());
 		}
 		return ResponseEntity.ok().body(res);
     }
