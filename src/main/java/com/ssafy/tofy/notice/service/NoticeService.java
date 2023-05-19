@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.tofy.freeboard.dto.FreeBoardDto;
 import com.ssafy.tofy.notice.dto.NoticeDto;
 
-@Mapper
 public interface NoticeService {
 	void writeNotice(NoticeDto notice) throws Exception;
 	List<NoticeDto> listNotice() throws Exception;
