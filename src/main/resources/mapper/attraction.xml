@@ -3,22 +3,22 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.ssafy.tofy.attraction.repository.AttractionRepository">
- 	<resultMap type="gugunDto" id="gugunMap">
+ 	<resultMap type="gugun" id="gugunMap">
  		<result column="gugun_code" property="gugunCode"  jdbcType="INTEGER" javaType="String"/>
 	 	<result column="gugun_name" property="gugunName" jdbcType="VARCHAR" javaType="String"/>
 		<result column="sido_code" property="sidoCode" jdbcType="INTEGER" javaType="String"/>
  	</resultMap>
  		
-	<select id="selectSidoList" resultType="sidoDto">
+	<select id="selectSidoList" resultType="sido">
 		select sido_code, sido_name from sido
 	</select>
 	
  	<select id="selectGugunListBySidoCode" parameterType="String" resultMap="gugunMap">
-		select g.gugun_code, g.gugun_name from gugun g join sido s
+		select g.gugun_code, g.gugun_name, g.sido_code from gugun g join sido s
 		on g.sido_code = s.sido_code
-		where g.sido_code = #{sidoCode};
+		where g.sido_code = #{sidoCode}
  	</select>
- 	
+
  	<select id = "listReview" parameterType="String" resultType="attractionReviewDto">
  		select * from attraction_review
 		where content_id = #{content_id}

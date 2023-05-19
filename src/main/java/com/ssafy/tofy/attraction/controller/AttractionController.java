@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ssafy.tofy.util.Response;
+import com.ssafy.tofy.util.Status;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,9 +32,9 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/attraction")
 @CrossOrigin(origins = {"*"})
 public class AttractionController {
-	
+
 	private AttractionService attractionService;
-	
+
 	public AttractionController(@Qualifier("AttractionServiceImpl") AttractionService attractionService) {
 		super();
 		this.attractionService = attractionService;
@@ -44,9 +46,9 @@ public class AttractionController {
 		try {
 			log.info("시/도 정보 조회");
 			List<Sido> list = attractionService.selectSidoList();
-			
+
 			if (list == null || list.size() == 0) log.warn("시/도 정보 불러오지 못함");
-			
+
 			for (Sido sido : list) {
 				log.info(sido.toString());
 			}
@@ -57,23 +59,37 @@ public class AttractionController {
 			return ResponseEntity.badRequest().build();
 		}
 	}
-	
+
 
 	// 구/군 정보 조회
 	@GetMapping("/gugun/{sidoCode}")
 	public ResponseEntity<Object> getGugunsBySidoCode(@PathVariable String sidoCode) {
+		Response res = Response.builder()
+				.status(Status.SUCCESS.getStatus())
+				.message("get gugun code success")
+				.data(new HashMap<>())
+				.build();
 
 		log.info("구군 정보를 {}번 코드로 조회", sidoCode);
-
-		List<Gugun> list = attractionService.selectGugunListBySidoCode(sidoCode);
-		
-		if (list == null || list.size() == 0) {
-			log.error("구군 정보를 불러오지 못했습니다...");
-			return ResponseEntity.badRequest()
-					.build();
+		List<Gugun> list = null;
+		try {
+			list = attractionService.selectGugunListBySidoCode(sidoCode);
+			res.getData().put("gugunList", list);
+			log.info("{}개의 데이터를 불러옴.", list.size());
+			if (list == null || list.isEmpty()) {
+				log.error("구군 정보를 가져오지 못함.");
+				res.setStatus(Status.FAIL.getStatus());
+				res.setMessage("get gugun code fail");
+			}
+		} catch (Exception e) {
+			log.info("{}개의 데이터를 불러옴.", list == null ? "null" : list.size());
+			log.error("구군 정보 조회 중 에러 발생 {}", e.getMessage());
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage("get gugun code error");
 		}
+
 		return ResponseEntity.ok()
-				.body(list);
+				.body(res);
 	}
 
 	// 여행지 상세 정보 조회(모달에 띄울 용도)
@@ -84,14 +100,14 @@ public class AttractionController {
 			AttractionDescDto attractionDesc = attractionService.selectDescription(contentId);
 
 			log.info(contentId + "번 여행지 정보 조회");
-			
+
 			return ResponseEntity.ok().body(attractionDesc);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
-	
+
 	// 검색 조건을 바탕으로 일치하는 여행지 정보 추출
 	@GetMapping("/map")
 	public ResponseEntity<Object> searchArea(@RequestBody Map<String, String> map) {
@@ -103,26 +119,26 @@ public class AttractionController {
 
 		try {
 			List<AttractionDto> list = attractionService.selectTripList(param);
-			
+
 			System.out.println(">>>" + list.size());
 			for (AttractionDto attractionDto : list) {
 				log.info(attractionDto);
 			}
-			
+
 			return ResponseEntity.ok().body(list);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest()
 					.build();
 		}
 	}
-	
+
 	// 여행지에 대한 리뷰 리스트 조회
 	@GetMapping("/{contentId}/review")
 	public ResponseEntity<Object> getReview(@PathVariable String contentId) {
 		try {
 			log.info("여행지에 대한 리뷰 리스트 출력 호출");
 			List<AttractionReviewDto> list = attractionService.listReview(contentId);
-			
+
 			for (AttractionReviewDto attractionReview : list) {
 				log.info(attractionReview.toString());
 			}
@@ -132,28 +148,28 @@ public class AttractionController {
 			return ResponseEntity.badRequest().build();
 		}
 	}
-	
+
 	// 여행지에 대한 리뷰 작성
 	@PostMapping("/{contentId}/review")
 	public ResponseEntity<Object> writeReview(@PathVariable String contentId, @RequestBody AttractionReviewDto review) {
 		try {
 			review.setContentId(contentId);
 			attractionService.writeReview(review);
-			
+
 			log.info("{}번 여행지 리뷰 생성", contentId);
-			
+
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().build();
 		}
 	}
-	
+
 	// 여행지에 대한 리뷰 수정
 	@PutMapping("/{contentId}/review")
 	public ResponseEntity<Object> modifyReview(@RequestBody AttractionReviewDto review) {
 		try {
 			attractionService.modifyReview(review);
-			
+
 			log.info("{}번 여행지 리뷰 수정", review);
 
 			return ResponseEntity.ok().build();
@@ -161,15 +177,15 @@ public class AttractionController {
 			return ResponseEntity.badRequest().build();
 		}
 	}
-	
+
 	// 여행지에 대한 리뷰 삭제
 	@DeleteMapping("/{contentId}/review/{reviewNo}")
 	public ResponseEntity<Object> deleteBoardComment(@PathVariable String contentId, @PathVariable String reviewNo) {
 		try {
 			log.info("{}번 리뷰 삭제", reviewNo);
-			
+
 			attractionService.deleteReview(reviewNo);
-			
+
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().build();

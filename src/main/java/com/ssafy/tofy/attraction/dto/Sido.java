@@ -7,6 +7,6 @@ import lombok.Data;
 @Builder
 public class Sido {
 	private String sidoCode;  //시도 코드
-	private String name;      //시도 이름
+	private String sidoName;      //시도 이름
 }
 
