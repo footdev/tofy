@@ -1,4 +1,11 @@
 package com.ssafy.tofy.recommender.service;
 
-public class RecommenderService {
+import java.util.List;
+
+import com.ssafy.tofy.attraction.dto.AttractionDto;
+
+public interface RecommenderService {
+	
+	List<AttractionDto> recommendAttraction(String contentId);
+
 }
