@@ -109,7 +109,7 @@ public class AttractionController {
 	}
 
 	// 검색 조건을 바탕으로 일치하는 여행지 정보 추출
-	@GetMapping("/map")
+	@PostMapping("/map")
 	public ResponseEntity<Object> searchArea(@RequestBody Map<String, String> map) {
 		Map<String, String> param = new HashMap();
 		param.put("sido", map.get("sido"));
