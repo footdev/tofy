@@ -1,70 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.ssafy.tofy.attraction.repository.AttractionRepository">
 	
-<mapper namespace="com.ssafy.tofy.attraction.repository.AttractionRepository">
- 	<resultMap type="gugun" id="gugunMap">
- 		<result column="gugun_code" property="gugunCode"  jdbcType="INTEGER" javaType="String"/>
-	 	<result column="gugun_name" property="gugunName" jdbcType="VARCHAR" javaType="String"/>
-		<result column="sido_code" property="sidoCode" jdbcType="INTEGER" javaType="String"/>
- 	</resultMap>
- 		
+	<resultMap type="attractionDto" id="attrDescMap">
+		<result column="title" property="title"></result>
+		<result column="addr" property="addr"></result>
+		<result column="addr2" property="addr2"></result>
+		<result column="first_image" property="firstImage"></result>
+		<result column="first_image2" property="secondImage"></result>
+		<collection property="attractionDescDto"
+			resultMap="attractionDescDto"></collection>
+	</resultMap>
+
+	<resultMap type="attractionDto" id="attractionMap">
+		<result column="title" property="notice_content" />
+		<result column="addr1" property="notice_create" />
+		<result column="addr2" property="notice_update" />
+		<result column="first_image" property="notice_hit" />
+		<result column="first_image2" property="notice_hit" />
+		<collection property="attrDesc" resultMap="attrDescMap" />
+	</resultMap>
+
+	<resultMap type="gugun" id="gugunMap">
+		<result column="gugun_code" property="gugunCode"
+			jdbcType="INTEGER" javaType="String" />
+		<result column="gugun_name" property="gugunName"
+			jdbcType="VARCHAR" javaType="String" />
+		<result column="sido_code" property="sidoCode"
+			jdbcType="INTEGER" javaType="String" />
+	</resultMap>
+
 	<select id="selectSidoList" resultType="sido">
-		select sido_code, sido_name from sido
+		select sido_code,
+		sido_name from sido
 	</select>
-	
- 	<select id="selectGugunListBySidoCode" parameterType="String" resultMap="gugunMap">
-		select g.gugun_code, g.gugun_name, g.sido_code from gugun g join sido s
+
+	<select id="selectGugunListBySidoCode" parameterType="String"
+		resultMap="gugunMap">
+		select g.gugun_code, g.gugun_name, g.sido_code from gugun g
+		join sido s
 		on g.sido_code = s.sido_code
 		where g.sido_code = #{sidoCode}
- 	</select>
+	</select>
 
- 	<select id = "listReview" parameterType="String" resultType="attractionReviewDto">
- 		select * from attraction_review
-		where content_id = #{content_id}
- 	</select>
- 	
-  	 <insert id="writeReview" parameterType="attractionReviewDto">
-  	 	insert into attraction_review (content_id, user_no, attraction_review_content, attraction_review_score, attraction_review_img) values
-  	 	(#{contentId}, #{userNo}, #{attractionReviewContent}, #{attractionReviewScore}, #{attractionReviewImg})
-	 </insert>
-	 
-	 <update id="modifyReview" parameterType="attractionReviewDto">
- 	 	update attraction_review
-	 	<trim prefix="set" suffixOverrides=",">
+	<select id="listReview" parameterType="String"
+		resultType="attractionReviewDto">
+		select * from attraction_review
+		where content_id =
+		#{content_id}
+	</select>
+
+	<insert id="writeReview" parameterType="attractionReviewDto">
+		insert into
+		attraction_review (content_id, user_no,
+		attraction_review_content,
+		attraction_review_score,
+		attraction_review_img) values
+		(#{contentId},
+		#{userNo}, #{attractionReviewContent}, #{attractionReviewScore},
+		#{attractionReviewImg})
+	</insert>
+
+	<update id="modifyReview" parameterType="attractionReviewDto">
+		update attraction_review
+		<trim prefix="set" suffixOverrides=",">
 			<if test="attractionReviewScore != null">attraction_review_score = #{attractionReviewScore},</if>
-			<if test="attractionReviewContent != null">attraction_review_content= #{attractionReviewContent},</if>
-	 	</trim>
-	 	where attraction_review_no = #{attractionReviewNo}
-	 </update>
-	 
- 	<delete id= "deleteReview" parameterType="String">
-  		delete from attraction_review 
-  		where attraction_review_no = #{reviewNo}	
- 	</delete>
- 	
- 	 <!-- 검색 조건을 바탕으로 여행지 정보를 조회하는 SQL 외부에서 들어오는 파라미터 = Map (hashMap) 
-	 	  Map에 담겨진 key 값으로 #{} 접근 가능
-	 -->
-	 <select id="selectTripList" parameterType="map" resultType="attractionDto">
-	 	SELECT * FROM attraction_info
-	 	WHERE 1=1
-	 	<if test='sido != "" and sido != "0"'>
-	 		AND sido_code = #{sido}
-	 	</if>
-	 	<if test='gugun != "" and gugun != "0"'>
-	 		AND gugun_code = #{gugun}
-	 	</if>
-	 	<if test='type != "" and type != "0"'>
-	 		AND content_type_id = #{type}
-	 	</if>
-	 	<if test='keyword != "" and keyword !=""'>
-	 		AND title LIKE CONCAT("%", #{keyword}, "%")
-	 	</if>
-	 </select>
-	 
-	 <select id="selectDescription" parameterType="String" resultType="attractionDescDto">
- 		select content_id, overview from attraction_description
- 		WHERE content_id = #{contentId}
-	 </select>
+			<if test="attractionReviewContent != null">attraction_review_content= #{attractionReviewContent},
+			</if>
+		</trim>
+		where attraction_review_no = #{attractionReviewNo}
+	</update>
+
+	<delete id="deleteReview" parameterType="String">
+		delete from
+		attraction_review
+		where attraction_review_no = #{reviewNo}
+	</delete>
+
+	<!-- 검색 조건을 바탕으로 여행지 정보를 조회하는 SQL 외부에서 들어오는 파라미터 = Map (hashMap) Map에 담겨진 
+		key 값으로 #{} 접근 가능 -->
+	<select id="selectTripList" parameterType="map"
+		resultType="attractionDto">
+		SELECT * FROM attraction_info
+		WHERE 1=1
+		<if test='sido != null and sido != "0"'>
+			AND sido_code = #{sido}
+		</if>
+		<if test='gugun != null and gugun != "0"'>
+			AND gugun_code = #{gugun}
+		</if>
+		<if test='type !=null and type != "0"'>
+			AND content_type_id = #{type}
+		</if>
+		<if test='keyword != null and keyword !=""'>
+			AND title LIKE CONCAT("%", #{keyword}, "%")
+		</if>
+	</select>
+
+	<select id="selectDescription" parameterType="String"
+		resultMap="attrDescMap">
+		select 
+			b.title, 
+			b.addr1, 
+			b.addr2, 
+			b.first_image, 
+			b.first_image2,
+			a.overview
+		from attraction_description a left join attraction_info b
+		on a.content_id = b.content_id
+		where a.content_id = #{contentId}
+	</select>
 </mapper>
