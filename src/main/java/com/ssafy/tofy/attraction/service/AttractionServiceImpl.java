@@ -62,4 +62,9 @@ public class AttractionServiceImpl implements AttractionService{
 	public void deleteReview(String reviewNo) {
 		attractionRepo.deleteReview(reviewNo);
 	}
+
+	@Override
+	public AttractionDto selectDetail(String contentId) {
+		return attractionRepo.selectDetail(contentId);
+	}
 }

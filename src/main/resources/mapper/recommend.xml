@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.tofy.recommender.repository.RecommenderRepository">
+	<select id="recommendAttraction" parameterType="String" resultType="attractionDto">
+		SELECT a.*
+		FROM (
+		    SELECT t1.content_id, SUM(t1.count * t2.count) AS dot_product, t3.vector_size, (SUM(t1.count * t2.count) / (t3.vector_size * vector_similar.vector_size)) AS cosine_similar
+		    FROM win_cnt_by_tag t1
+		    LEFT JOIN win_cnt_by_tag t2 ON t1.tag_no = t2.tag_no AND t2.content_id = '125266'
+		    JOIN (
+		        SELECT content_id, sqrt(SUM(POW(count, 2))) AS vector_size
+		        FROM win_cnt_by_tag
+		        GROUP BY content_id
+		    ) t3 ON t1.content_id = t3.content_id
+		    CROSS JOIN (
+		        SELECT sqrt(SUM(POW(count, 2))) AS vector_size
+		        FROM win_cnt_by_tag
+		        WHERE content_id = #{contentId}
+		    ) vector_similar
+		    GROUP BY t1.content_id, t3.vector_size, vector_similar.vector_size
+		    ORDER BY cosine_similar DESC
+		    LIMIT 11
+		) subquery
+		INNER JOIN attraction_info a ON subquery.content_id = a.content_id;
+	</select>
+</mapper>

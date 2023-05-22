@@ -22,4 +22,5 @@ public interface AttractionRepository {
 	public void writeReview(AttractionReviewDto review);
 	public void modifyReview(AttractionReviewDto review);
 	public void deleteReview(String reviewNo);
+	public AttractionDto selectDetail(String contentId);
 }

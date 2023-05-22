@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.tofy.attraction.dto.AttractionDescDto;
+import com.ssafy.tofy.attraction.dto.AttractionDetailDto;
+import com.ssafy.tofy.attraction.dto.AttractionDetailDto.AttractionDetailDtoBuilder;
 import com.ssafy.tofy.attraction.dto.AttractionDto;
 import com.ssafy.tofy.attraction.dto.AttractionReviewDto;
 import com.ssafy.tofy.attraction.dto.Gugun;
@@ -98,10 +100,17 @@ public class AttractionController {
 	public ResponseEntity<Object> getBoard(@PathVariable String contentId) {
 		try {
 			AttractionDescDto attractionDesc = attractionService.selectDescription(contentId);
-
+			AttractionDto attractionDetail = attractionService.selectDetail(contentId);
+		
 			log.info(contentId + "번 여행지 정보 조회");
-
-			return ResponseEntity.ok().body(attractionDesc);
+			
+			AttractionDetailDto detail = AttractionDetailDto.builder()
+					.attractionDesc(attractionDesc)
+					.attractionDto(attractionDetail)
+					.build();
+			
+			System.out.println(detail);
+			return ResponseEntity.ok().body(detail);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return ResponseEntity.badRequest().build();

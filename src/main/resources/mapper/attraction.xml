@@ -4,25 +4,6 @@
 
 <mapper
 	namespace="com.ssafy.tofy.attraction.repository.AttractionRepository">
-	
-	<resultMap type="attractionDto" id="attrDescMap">
-		<result column="title" property="title"></result>
-		<result column="addr" property="addr"></result>
-		<result column="addr2" property="addr2"></result>
-		<result column="first_image" property="firstImage"></result>
-		<result column="first_image2" property="secondImage"></result>
-		<collection property="attractionDescDto"
-			resultMap="attractionDescDto"></collection>
-	</resultMap>
-
-	<resultMap type="attractionDto" id="attractionMap">
-		<result column="title" property="notice_content" />
-		<result column="addr1" property="notice_create" />
-		<result column="addr2" property="notice_update" />
-		<result column="first_image" property="notice_hit" />
-		<result column="first_image2" property="notice_hit" />
-		<collection property="attrDesc" resultMap="attrDescMap" />
-	</resultMap>
 
 	<resultMap type="gugun" id="gugunMap">
 		<result column="gugun_code" property="gugunCode"
@@ -100,17 +81,12 @@
 		</if>
 	</select>
 
-	<select id="selectDescription" parameterType="String"
-		resultMap="attrDescMap">
-		select 
-			b.title, 
-			b.addr1, 
-			b.addr2, 
-			b.first_image, 
-			b.first_image2,
-			a.overview
-		from attraction_description a left join attraction_info b
-		on a.content_id = b.content_id
-		where a.content_id = #{contentId}
-	</select>
+	 <select id="selectDescription" parameterType="String" resultType="attractionDescDto">
+ 		select content_id, overview from attraction_description
+ 		WHERE content_id = #{contentId}
+	 </select>
+	 <select id = "selectDetail" parameterType="String" resultType = "attractionDto">
+	 	select * from attraction_info
+ 		where content_id = #{contentId}
+	 </select>
 </mapper>

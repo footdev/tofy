@@ -15,7 +15,6 @@
     <typeAlias type="com.ssafy.tofy.worldcup.dto.WorldCupResult" alias="worldcup"/>
 	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionDto" alias="attractionDto"/>
 	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionDescDto" alias="attractionDescDto"/>
-	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionDescJoinDto" alias="descJoinDto"/>
 	<typeAlias type="com.ssafy.tofy.attraction.dto.Sido" alias="sido"/>
 	<typeAlias type="com.ssafy.tofy.attraction.dto.Gugun" alias="gugun"/>
 	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionReviewDto" alias="attractionReviewDto"/>
@@ -29,6 +28,7 @@
 	<mapper resource="mapper/notice.xml"/>
     <mapper resource="mapper/worldcup.xml"/>
 	<mapper resource="mapper/attraction.xml"/>
+	<mapper resource="mapper/recommend.xml"/>
   </mappers>
 
 </configuration>

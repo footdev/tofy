@@ -1,5 +1,6 @@
 package com.ssafy.tofy.recommender.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,18 +36,17 @@ public class RecommenderController {
         Response res = Response.builder()
                 .status(Status.SUCCESS.getStatus())
                 .message("attraction recommend success")
-                .data(null)
+                .data(new HashMap<>())
                 .build();
         
         try {
         	List<AttractionDto> recommendList = recommendService.recommendAttraction(conentNo);
-        	
         	res.getData().put("recommend attractions", recommendList);
         	log.info("여행지에 대한 연관 여행지 추천 리스트 불러오기 성공");
         	
         } catch (Exception e) {
 			// TODO: handle exception
-        	log.error("여행지에 대한 연관 여행지 추천 불러오기 실패");
+        	log.error("여행지에 대한 연관 여행지 추천 불러오기 실패" + e.getMessage());
         	res.setStatus(Status.ERROR.getStatus());
             res.setMessage("error get recoomend Attractions");
 		}
