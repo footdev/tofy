@@ -41,7 +41,7 @@ public class RecommenderController {
         
         try {
         	List<AttractionDto> recommendList = recommendService.recommendAttraction(conentNo);
-        	res.getData().put("recommend attractions", recommendList);
+        	res.getData().put("recommendAttr", recommendList);
         	log.info("여행지에 대한 연관 여행지 추천 리스트 불러오기 성공");
         	
         } catch (Exception e) {
