@@ -124,6 +124,7 @@ public class UserController {
 
         try {
             userService.deleteRefreshToken(userId);
+            log.info("{} 로그아웃 실행", userId);
         } catch (Exception e) {
             log.error("로그아웃 실패 {}", e.getMessage());
 
@@ -223,19 +224,19 @@ public class UserController {
                 .message("user refresh token issue")
                 .data(new HashMap<>())
                 .build();
-        String token = request.getHeader(ACCESS_TOKEN);
+        String token = request.getHeader(REFRESH_TOKEN);
 
-        log.debug("user : {} token : {}", user, token);
+        log.info("user : {} refresh-token : {}", user.getUserId(), token);
 
        if (jwtService.checkToken(token)) {
            //클라이언트로 부터 온 refresh token과 서버에 저장되어 있는 refresh token이 같은지 검사
            if (token.equals(userService.getRefreshToken(user.getUserId()))) {
-                String accessToken = jwtService.createAccessToken(USER_ID, user.getUserId());
+                String newAccessToken = jwtService.createAccessToken(USER_ID, user.getUserId());
 
-                log.info("new access token {}", accessToken);
+                log.info("new access token {}", newAccessToken);
                 log.info("새로운 접근 토큰 생성 완료");
 
-                res.getData().put(ACCESS_TOKEN, accessToken);
+                res.getData().put(ACCESS_TOKEN, newAccessToken);
            }
        } else {
            log.warn("refresh 토큰도 사용 불가");

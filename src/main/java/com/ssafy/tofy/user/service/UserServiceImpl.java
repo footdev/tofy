@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
         Map<String, String> map = new HashMap<String, String>();
         map.put("userId", userId);
         map.put("token", null);
-//        sqlSession.getMapper(UserRepository.class).deleteRefreshToken(map);
+        sqlSession.getMapper(UserRepository.class).deleteRefreshToken(map);
     }
 
 	@Override
