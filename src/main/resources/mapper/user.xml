@@ -5,6 +5,7 @@
 
 <mapper namespace="com.ssafy.tofy.user.repository.UserRepository">
     <resultMap type="user" id="userMap">
+	    <result column="user_no" property="userNo" jdbcType="VARCHAR" javaType="String"/>
         <result column="user_nm" property="userNm" jdbcType="VARCHAR" javaType="String"/>
         <result column="user_id" property="userId" jdbcType="VARCHAR" javaType="String"/>
         <result column="user_pw" property="userPw" jdbcType="INTEGER" javaType="String"/>
