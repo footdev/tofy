@@ -1,10 +1,8 @@
 package com.ssafy.tofy.freeboard.dto;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 public class FreeBoardDto {
 	private String freeBoardNo;
 	private String userNo;

@@ -81,6 +81,8 @@ public class UserController {
                 .data(new HashMap<>())
                 .build();
 
+        log.info("{} 로그인 요청", user.getUserId());
+
         try {
             User retUser = userService.login(user);
 
@@ -90,6 +92,7 @@ public class UserController {
 
                 userService.saveRefreshToken(retUser.getUserId(), refreshToken);
 
+                log.info("로그인 성공");
                 log.info("로그인 accessToken 정보 {} ", accessToken);
                 log.info("로그인 refreshToken 정보 {} ", refreshToken);
 

@@ -1,12 +1,9 @@
 package com.ssafy.tofy.user.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@Builder
 public class User {
 
     String userId;
@@ -17,5 +14,4 @@ public class User {
     String adminFl;
     String token;
     String regTime;
-
 }
