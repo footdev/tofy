@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.tofy.tag.repository.TagRepository">
+    <resultMap type="tag" id="tagMap">
+        <result column="tag_no" property="tagNo" jdbcType="INTEGER" javaType="String"/>
+        <result column="tag_nm" property="tagNm" jdbcType="VARCHAR" javaType="String"/>
+    </resultMap>
+
+    <select id="getAllTags" resultMap="tagMap">
+        select * from tag
+    </select>
+    <delete id="deleteTagsByUserNo" parameterType="String">
+        delete from select_tag where user_no = #{userNo};
+    </delete>
+    <insert id="saveSelectedTag">
+        insert into selectTag (user_no, tag_no) values
+        <foreach item="selection" index="index" collection="array" separator=",">
+            (#{selection.userNo}, #{selection.tagNo})
+        </foreach>
+    </insert>
+</mapper>
