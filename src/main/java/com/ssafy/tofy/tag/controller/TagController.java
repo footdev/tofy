@@ -1,11 +1,14 @@
 package com.ssafy.tofy.tag.controller;
 
+import com.ssafy.tofy.tag.dto.SelectTag;
 import com.ssafy.tofy.tag.service.TagService;
 import com.ssafy.tofy.util.Response;
 import com.ssafy.tofy.util.Status;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -34,6 +37,27 @@ public class TagController {
             log.error("태그 목록 조회 중 에러 {}", e.getMessage());
             res.setStatus(Status.ERROR.getStatus());
             res.setMessage("error all tag get");
+        }
+
+        return ResponseEntity.ok()
+                .body(res);
+    }
+
+    @PostMapping("/tag")
+    public ResponseEntity<Object> saveSelectedTags(@RequestParam SelectTag[] selectedTags) {
+        Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("success save tags")
+                .data(null)
+                .build();
+        try {
+            tagService.saveSelectedTag(selectedTags);
+            log.info("{} 사용자의 모든 태그 저장 완료", selectedTags[0].getUserNo());
+
+        } catch (Exception e) {
+            log.error("태그 저장 중 에러 {}", e.getMessage());
+            res.setStatus(Status.ERROR.getStatus());
+            res.setMessage("error save tags");
         }
 
         return ResponseEntity.ok()
