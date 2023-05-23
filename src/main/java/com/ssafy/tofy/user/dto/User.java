@@ -5,7 +5,8 @@ import lombok.*;
 @Getter
 @Setter
 public class User {
-
+	
+	String userNo;
     String userId;
     String userNm;
     String userPw;
