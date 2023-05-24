@@ -4,20 +4,19 @@ import java.util.List;
 
 import com.ssafy.tofy.user.dto.User;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@Builder
+
+@Data
 public class Plan {
-	private int planNo;
-	private int userNo;
+	private String planNo;
+	private String userNo;
 	private String planTitle;
+	private String planContent;
 	private String planCreate;
 	private String planStart;
 	private String planEnd;
-	private int planHit;
+	private String planHit;
+	private User user;
 	private List<PlanDetail> planDetail;
 }

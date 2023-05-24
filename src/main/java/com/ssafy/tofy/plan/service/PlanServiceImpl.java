@@ -1,7 +1,6 @@
 package com.ssafy.tofy.plan.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -9,6 +8,9 @@ import com.ssafy.tofy.plan.dto.Plan;
 import com.ssafy.tofy.plan.dto.PlanDetail;
 import com.ssafy.tofy.plan.repository.PlanRepository;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @Service
 public class PlanServiceImpl implements PlanService {
 	
@@ -30,12 +32,13 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
-	public List<Plan> listPlan(Map<String, String> param) throws Exception {
-		return planRepo.listPlan(param);
+	public List<Plan> listPlan() throws Exception {
+		return planRepo.listPlan();
 	}
 
 	@Override
-	public Plan getPlan(int planNo) throws Exception {
+	public Plan getPlan(String planNo) throws Exception {
+		log.info("{}번 여행 계획 출력: PlanService" ,planNo);
 		return planRepo.getPlan(planNo);
 	}
 
@@ -45,12 +48,12 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
-	public void updateHit(int planNo) throws Exception {
+	public void updateHit(String planNo) throws Exception {
 		planRepo.updateHit(planNo);
 	}
 
 	@Override
-	public List<PlanDetail> getPlanDetail(int planNo) throws Exception {
+	public List<PlanDetail> getPlanDetail(String planNo) throws Exception {
 		return planRepo.getPlanDetail(planNo);
 	}
 

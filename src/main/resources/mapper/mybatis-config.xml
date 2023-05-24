@@ -19,6 +19,9 @@
 	<typeAlias type="com.ssafy.tofy.attraction.dto.Gugun" alias="gugun"/>
 	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionReviewDto" alias="attractionReviewDto"/>
 	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionDescDto" alias="attractionDescDto"/>
+	<typeAlias type="com.ssafy.tofy.plan.dto.PlanDetail" alias = "planDetail"/>
+	<typeAlias type="com.ssafy.tofy.plan.dto.Plan" alias = "plan"/>
+
   </typeAliases>
   
   <!-- Mapper 파일 경로 설정  -->
@@ -29,7 +32,8 @@
     <mapper resource="mapper/worldcup.xml"/>
 	<mapper resource="mapper/attraction.xml"/>
 	<mapper resource="mapper/recommend.xml"/>
-	  <mapper resource="mapper/tag.xml" />
+  	<mapper resource="mapper/tag.xml" />
+  	<mapper resource="mapper/plan.xml"/>
   </mappers>
 
 </configuration>
