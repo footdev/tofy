@@ -1,15 +1,10 @@
 package com.ssafy.tofy.plan.dto;
 
-import lombok.Builder;
+import lombok.Data;
 
-import lombok.Getter;
-
-import lombok.Setter;
-
-@Setter
-@Getter
-@Builder
+@Data
 public class PlanDetail {
-	private int contentId;
+	private String tripPlanNo;
+	private String contentId;
 //	private int order;
 }

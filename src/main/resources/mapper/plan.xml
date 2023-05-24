@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.tofy.plan.repository.PlanRepository">
+
+    <resultMap type="plan" id="planMap">
+        <result column="trip_plan_no" property="planNo"/>
+        <result column="user_no" property="userNo"/>
+        <result column="trip_plan_title" property="planTitle"/>
+        <result column="trip_plan_content" property="planContent"/>
+        <result column="trip_plan_create" property="planCreate"/>
+        <result column="trip_plan_start" property="planStart"/>
+        <result column="trip_plan_end" property="planEnd"/>
+        <result column="trip_plan_hit" property="planHit"/>
+        <result column="user_nm" property="user.userNm"/>
+    </resultMap>
+    
+    <resultMap type="planDetail" id="planDetailMap">
+        <result column="trip_plan_no" property="tripPlanNo"/>
+        <result column="content_id" property="contentId"/>
+    </resultMap>
+   
+    <select id = "listPlan" resultMap="planMap">
+		select *
+		from trip_plan left join user on
+		trip_plan.user_no = user.user_no;
+    </select>
+    
+    <select id = "getPlanDetail" parameterType="String"
+    	resultMap="planDetailMap">
+    	select *
+		from trip_plan_detail
+		where trip_plan_no = #{planNo}
+	</select>
+	
+	<update id="updateHit" parameterType="String">
+		update trip_plan
+		set trip_plan_hit =
+		trip_plan_hit + 1
+		where trip_plan_no = #{planNo}
+	</update>
+	
+	<select id="getPlan" parameterType="String" resultMap="planMap">
+		select *
+		from trip_plan left join user on
+		trip_plan.user_no = user.user_no
+		where trip_plan.trip_plan_no = #{planNo}
+	</select>
+</mapper>
