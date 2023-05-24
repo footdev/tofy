@@ -53,17 +53,17 @@
         where user_id = #{userId}
     </update>
     
-    <select id="getTag" parameterType="String" resultType="selectTag">
-	    select a.user_no, b.tag_no, b.tag_nm
-		from select_tag a inner join tag b on a.tag_no = b.tag_no
-		left join user c on a.user_no = c.user_no
-		where c.user_id = #{userId};
-    </select>
-    
-    <insert id="selectTag" parameterType="hashmap">
-		insert into select_tag (user_no, tag_no) values
-		<foreach collection="tagArr" item="tagNo" separator=",">
-			((select user_no from user where user_id = #{userId}), #{tagNo})
-		</foreach>
-    </insert>
+<!--    <select id="getTag" parameterType="String" resultType="selectTag">-->
+<!--	    select a.user_no, b.tag_no, b.tag_nm-->
+<!--		from select_tag a inner join tag b on a.tag_no = b.tag_no-->
+<!--		left join user c on a.user_no = c.user_no-->
+<!--		where c.user_id = #{userId};-->
+<!--    </select>-->
+<!--    -->
+<!--    <insert id="selectTag" parameterType="hashmap">-->
+<!--		insert into select_tag (user_no, tag_no) values-->
+<!--		<foreach collection="tagArr" item="tagNo" separator=",">-->
+<!--			((select user_no from user where user_id = #{userId}), #{tagNo})-->
+<!--		</foreach>-->
+<!--    </insert>-->
 </mapper>
