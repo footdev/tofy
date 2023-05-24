@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.tofy.attraction.dto.AttractionDescDto;
 import com.ssafy.tofy.attraction.dto.AttractionDto;
+import com.ssafy.tofy.attraction.dto.AttractionRate;
 import com.ssafy.tofy.attraction.dto.AttractionReviewDto;
 import com.ssafy.tofy.attraction.dto.Gugun;
 import com.ssafy.tofy.attraction.dto.Sido;
@@ -66,5 +67,10 @@ public class AttractionServiceImpl implements AttractionService{
 	@Override
 	public AttractionDto selectDetail(String contentId) {
 		return attractionRepo.selectDetail(contentId);
+	}
+
+	@Override
+	public AttractionRate getRate(String contentId) {
+		return attractionRepo.getRate(contentId);
 	}
 }

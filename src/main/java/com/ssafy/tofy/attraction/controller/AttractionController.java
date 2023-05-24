@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ssafy.tofy.util.Response;
-import com.ssafy.tofy.util.Status;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,12 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.tofy.attraction.dto.AttractionDescDto;
 import com.ssafy.tofy.attraction.dto.AttractionDetailDto;
-import com.ssafy.tofy.attraction.dto.AttractionDetailDto.AttractionDetailDtoBuilder;
 import com.ssafy.tofy.attraction.dto.AttractionDto;
+import com.ssafy.tofy.attraction.dto.AttractionRate;
 import com.ssafy.tofy.attraction.dto.AttractionReviewDto;
 import com.ssafy.tofy.attraction.dto.Gugun;
 import com.ssafy.tofy.attraction.dto.Sido;
 import com.ssafy.tofy.attraction.service.AttractionService;
+import com.ssafy.tofy.util.Response;
+import com.ssafy.tofy.util.Status;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -197,6 +197,19 @@ public class AttractionController {
 
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+	
+	// 여행지 리뷰 별점 조회
+	@GetMapping("/rate/{contentId}")
+	public ResponseEntity<Object> getRating(@PathVariable String contentId) {
+		try {
+
+			AttractionRate rate = attractionService.getRate(contentId);
+			return ResponseEntity.ok().body(rate);
+		} catch (Exception e) {
+			log.error(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}

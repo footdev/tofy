@@ -89,4 +89,10 @@
 	 	select * from attraction_info
  		where content_id = #{contentId}
 	 </select>
+	 
+	 <select id = "getRate" parameterType="String" resultType="attrRate">
+	 	select avg(attraction_review_score) as rate
+		from attraction_review
+		where content_id = #{contentId}
+	 </select>
 </mapper>
