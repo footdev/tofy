@@ -3,7 +3,17 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.ssafy.tofy.notice.repository.NoticeRepository">
-	<select id="listNotice" resultType="noticeDto">
+
+    <resultMap type="noticeDto" id="noticeMap">
+        <result column="notice_no" property="noticeNo" jdbcType="VARCHAR" javaType="String"/>
+        <result column="user_no" property="userNo" jdbcType="VARCHAR" javaType="String"/>
+        <result column="notice_title" property="noticeTitle" jdbcType="INTEGER" javaType="String"/>
+        <result column="notice_content" property="noticeContent" jdbcType="VARCHAR" javaType="String"/>
+        <result column="notice_create" property="noticeCreate" jdbcType="VARCHAR" javaType="String"/>
+        <result column="notice_hit" property="noticeHit" jdbcType="CHAR" javaType="String"/>
+    </resultMap>	
+	
+	<select id="listNotice" resultMap="noticeMap">
 		select * from notice;
 	</select>
 	
@@ -11,7 +21,7 @@
 		insert into notice (user_no, notice_title, notice_content)
 		values(#{userNo}, #{noticeTitle}, #{noticeContent})
 	</insert>
-	<select id="getNotice" resultType="noticeDto">
+	<select id="getNotice" resultMap="noticeMap">
 	 	select * from notice where notice_no = #{noticeNo}
  	</select>
 	<update id="updateHit">
