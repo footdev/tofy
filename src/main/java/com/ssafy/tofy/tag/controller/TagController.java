@@ -47,6 +47,10 @@ public class TagController {
                 .message("success save tags")
                 .data(null)
                 .build();
+        for (SelectTag tag : selectedTags) {
+            log.info("태그 번호 = [{}] 유저 번호 = [{}]", tag.getTagNo(), tag.getUserNo());
+        }
+
         try {
             tagService.saveSelectedTag(selectedTags);
             log.info("{} 사용자의 모든 태그 저장 완료", selectedTags[0].getUserNo());
