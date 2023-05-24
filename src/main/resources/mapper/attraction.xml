@@ -22,6 +22,7 @@
         <result column="attraction_review_score" property="attractionReviewScore" jdbcType="VARCHAR" javaType="String"/>
         <result column="attraction_review_img" property="attractionReviewImg" jdbcType="CHAR" javaType="String"/>
         <result column="attraction_review_create" property="attractionReviewCreate"></result>
+        <result column="user_nm" property="user.userNm"></result>
     </resultMap>
 
 	<select id="selectSidoList" resultType="sido">
@@ -39,8 +40,9 @@
 
 	<select id="listReview" parameterType="String"
 		resultMap="attrReviewMap">
-		select * from attraction_review
-		where content_id = #{content_id}
+		select * from attraction_review a left join user b
+		on a.user_no = b.user_no
+		where a.content_id = #{content_id}
 	</select>
 
 	<insert id="writeReview" parameterType="attractionReviewDto">

@@ -1,5 +1,7 @@
 package com.ssafy.tofy.attraction.dto;
 
+import com.ssafy.tofy.user.dto.User;
+
 import lombok.Data;
 
 @Data
@@ -11,4 +13,5 @@ public class AttractionReviewDto {
 	private String attractionReviewScore;
 	private String attractionReviewImg;
 	private String attractionReviewCreate;
+	private User user;
 }
