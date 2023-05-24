@@ -6,10 +6,7 @@ import com.ssafy.tofy.util.Response;
 import com.ssafy.tofy.util.Status;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -44,7 +41,7 @@ public class TagController {
     }
 
     @PostMapping("/tag")
-    public ResponseEntity<Object> saveSelectedTags(@RequestParam SelectTag[] selectedTags) {
+    public ResponseEntity<Object> saveSelectedTags(@RequestBody SelectTag[] selectedTags) {
         Response res = Response.builder()
                 .status(Status.SUCCESS.getStatus())
                 .message("success save tags")
