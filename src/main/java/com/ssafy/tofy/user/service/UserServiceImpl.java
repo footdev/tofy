@@ -1,6 +1,5 @@
 package com.ssafy.tofy.user.service;
 
-import com.ssafy.tofy.user.dto.SelectTag;
 import com.ssafy.tofy.user.dto.User;
 import com.ssafy.tofy.user.repository.UserRepository;
 
@@ -82,16 +81,16 @@ public class UserServiceImpl implements UserService {
         sqlSession.getMapper(UserRepository.class).deleteRefreshToken(map);
     }
 
-	@Override
-	public void selectTag(Map<String, Object> param) {
-		log.info("{} 태그 선택", param.get("userId"));
-		sqlSession.getMapper(UserRepository.class).selectTag(param);
-	}
-	
-	@Override
-	public SelectTag[] getTag(String userId) {
-		log.info("{} 회원입니다.", userId);
-		return sqlSession.getMapper(UserRepository.class).getTag(userId);
-	}
+//	@Override
+//	public void selectTag(Map<String, Object> param) {
+//		log.info("{} 태그 선택", param.get("userId"));
+//		sqlSession.getMapper(UserRepository.class).selectTag(param);
+//	}
+//
+//	@Override
+//	public SelectTag[] getTag(String userId) {
+//		log.info("{} 회원입니다.", userId);
+//		return sqlSession.getMapper(UserRepository.class).getTag(userId);
+//	}
 
 }
