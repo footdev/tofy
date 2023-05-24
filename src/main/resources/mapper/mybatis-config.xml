@@ -21,6 +21,7 @@
 	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionDescDto" alias="attractionDescDto"/>
 	<typeAlias type="com.ssafy.tofy.plan.dto.PlanDetail" alias = "planDetail"/>
 	<typeAlias type="com.ssafy.tofy.plan.dto.Plan" alias = "plan"/>
+	<typeAlias type="com.ssafy.tofy.attraction.dto.AttractionRate" alias = "attrRate"/>
 
   </typeAliases>
   
