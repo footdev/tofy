@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.tofy.attraction.dto.AttractionDescDto;
 import com.ssafy.tofy.attraction.dto.AttractionDto;
+import com.ssafy.tofy.attraction.dto.AttractionRate;
 import com.ssafy.tofy.attraction.dto.AttractionReviewDto;
 import com.ssafy.tofy.attraction.dto.Gugun;
 import com.ssafy.tofy.attraction.dto.Sido;
@@ -23,4 +24,5 @@ public interface AttractionRepository {
 	public void modifyReview(AttractionReviewDto review);
 	public void deleteReview(String reviewNo);
 	public AttractionDto selectDetail(String contentId);
+	public AttractionRate getRate(String contentId);
 }
