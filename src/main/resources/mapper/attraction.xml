@@ -13,6 +13,16 @@
 		<result column="sido_code" property="sidoCode"
 			jdbcType="INTEGER" javaType="String" />
 	</resultMap>
+	
+    <resultMap type="attractionReviewDto" id="attrReviewMap">
+        <result column="attraction_review_no" property="attractionReviewNo" jdbcType="VARCHAR" javaType="String"/>
+        <result column="content_id" property="contentId" jdbcType="VARCHAR" javaType="String"/>
+        <result column="user_no" property="userNo" jdbcType="INTEGER" javaType="String"/>
+        <result column="attraction_review_content" property="attractionReviewContent" jdbcType="VARCHAR" javaType="String"/>
+        <result column="attraction_review_score" property="attractionReviewScore" jdbcType="VARCHAR" javaType="String"/>
+        <result column="attraction_review_img" property="attractionReviewImg" jdbcType="CHAR" javaType="String"/>
+        <result column="attraction_review_create" property="attractionReviewCreate"></result>
+    </resultMap>
 
 	<select id="selectSidoList" resultType="sido">
 		select sido_code,
@@ -28,10 +38,9 @@
 	</select>
 
 	<select id="listReview" parameterType="String"
-		resultType="attractionReviewDto">
+		resultMap="attrReviewMap">
 		select * from attraction_review
-		where content_id =
-		#{content_id}
+		where content_id = #{content_id}
 	</select>
 
 	<insert id="writeReview" parameterType="attractionReviewDto">
