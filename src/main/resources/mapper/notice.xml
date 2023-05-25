@@ -11,6 +11,7 @@
         <result column="notice_content" property="noticeContent" jdbcType="VARCHAR" javaType="String"/>
         <result column="notice_create" property="noticeCreate" jdbcType="VARCHAR" javaType="String"/>
         <result column="notice_hit" property="noticeHit" jdbcType="CHAR" javaType="String"/>
+        <result column="user_nm" property="user.userNm"></result>
     </resultMap>	
 	
 	<select id="listNotice" resultMap="noticeMap">
