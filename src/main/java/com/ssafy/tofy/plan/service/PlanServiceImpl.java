@@ -24,6 +24,12 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public void createPlan(Plan plan) throws Exception {
 		planRepo.createPlan(plan);
+		
+		List<PlanDetail> planDetailList = plan.getPlanDetail();
+		
+		if(planDetailList != null && !planDetailList.isEmpty())  {
+			planRepo.createPlanDetail(plan);
+		}
 	}
 
 	@Override

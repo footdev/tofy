@@ -70,12 +70,14 @@ public class PlanController {
 	
 	@PostMapping("/plan")
 	public ResponseEntity<Object> writeBoard(@RequestBody Plan plan) {
+		log.info(plan.toString());
 		try {
 			planService.createPlan(plan);
 			log.info("계획 생성 완료");
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
-			log.info("계획 생성 실패");
+			log.info("계획 생성 실패: {}", e.getMessage());
+			
 			return ResponseEntity.badRequest().build();
 		}
 	}

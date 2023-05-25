@@ -47,4 +47,22 @@
 		trip_plan.user_no = user.user_no
 		where trip_plan.trip_plan_no = #{planNo}
 	</select>
+	
+	<insert id="createPlan" parameterType="plan">
+		insert into trip_plan
+		(user_no, trip_plan_title, trip_plan_content, trip_plan_start, trip_plan_end)
+		values (#{userNo},
+		#{planTitle}, #{planContent}, #{planStart}, #{planEnd})
+		<selectKey resultType="String" keyProperty="planNo" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<insert id = "createPlanDetail" parameterType="plan">
+		insert into trip_plan_detail (trip_plan_no, content_id)
+		values 
+		<foreach collection="planDetail" item="details" separator=" , ">
+		(#{planNo}, #{details.contentId})
+		</foreach>
+	</insert>
 </mapper>

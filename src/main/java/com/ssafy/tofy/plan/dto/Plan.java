@@ -9,6 +9,7 @@ import lombok.Data;
 
 @Data
 public class Plan {
+	
 	private String planNo;
 	private String userNo;
 	private String planTitle;

@@ -26,4 +26,5 @@ public interface PlanRepository {
 	public List<PlanDetail> getPlanDetail(String planNo)throws Exception;
 	// 여행 계획 상세 삭제
 	public void deletePlanDetail(int planNo)throws Exception;
+	public void createPlanDetail(Plan plan) throws Exception;
 }
