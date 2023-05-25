@@ -25,4 +25,9 @@ public class RecommenderServiceImpl implements RecommenderService {
 		log.info(contentId);
 		return recommenderRepo.recommendAttraction(contentId);
 	}
+
+	@Override
+	public List<AttractionDto> recommendAttractionByUser(String userNo) {
+		return recommenderRepo.recommendAttractionByUser(userNo);
+	}
 }

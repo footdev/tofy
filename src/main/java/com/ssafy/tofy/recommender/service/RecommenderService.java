@@ -7,5 +7,6 @@ import com.ssafy.tofy.attraction.dto.AttractionDto;
 public interface RecommenderService {
 	
 	List<AttractionDto> recommendAttraction(String contentId);
+	List<AttractionDto> recommendAttractionByUser(String userNo);
 
 }

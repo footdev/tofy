@@ -54,4 +54,29 @@ public class RecommenderController {
         return ResponseEntity.ok()
                 .body(res);
 	}
+	
+	// 사용자가 가지고 있는 태그에서 여행지 추천
+	@GetMapping("/recommendByTag/{userNo}")
+	public ResponseEntity<Object> recommendAttractionByUser(@PathVariable String userNo) {
+        Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("attraction recommend success")
+                .data(new HashMap<>())
+                .build();
+        
+        try {
+        	List<AttractionDto> recommendList = recommendService.recommendAttractionByUser(userNo);
+        	res.getData().put("recommendAttr", recommendList);
+        	log.info("사용자에 대한 연관 여행지 추천 리스트 불러오기 성공");
+        	
+        } catch (Exception e) {
+			// TODO: handle exception
+        	log.error("사용자에 대한 연관 여행지 추천 불러오기 실패" + e.getMessage());
+        	res.setStatus(Status.ERROR.getStatus());
+            res.setMessage("error get recoomend Attractions");
+		}
+        
+        return ResponseEntity.ok()
+                .body(res);
+	}
 }

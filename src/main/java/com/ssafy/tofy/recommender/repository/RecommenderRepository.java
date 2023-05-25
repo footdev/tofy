@@ -10,5 +10,6 @@ import com.ssafy.tofy.attraction.dto.AttractionDto;
 public interface RecommenderRepository {
 	
 	List<AttractionDto> recommendAttraction(String contentId);
+	List<AttractionDto> recommendAttractionByUser(String userNo);
 
 }

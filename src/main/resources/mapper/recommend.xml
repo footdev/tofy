@@ -25,4 +25,15 @@
 		) subquery
 		INNER JOIN attraction_info a ON subquery.content_id = a.content_id;
 	</select>
+	
+	<select id="recommendAttractionByUser" parameterType="String" resultType="attractionDto">
+		select * 
+			from attraction_info
+			where content_id = (
+				select content_id
+				from win_cnt_by_tag
+				where tag_no in (select tag_no from select_tag where user_no = #{userNo})
+				  and count >= 1
+		)
+	</select>
 </mapper>
