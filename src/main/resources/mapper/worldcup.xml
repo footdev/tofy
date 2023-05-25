@@ -21,7 +21,7 @@
     <update id="increaseWinCntByTag" parameterType="map">
         update win_cnt_by_tag
         set count = count + 1
-        where tag_no in
+        where content_id = #{contentId} and tag_no in
         <foreach item="tag" index="index" collection="tags" open="(" separator="," close=")">
             #{tag.tagNo}
         </foreach>
