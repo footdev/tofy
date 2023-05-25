@@ -84,6 +84,8 @@ public class WorldCupController {
                 .data(null)
                 .build();
 
+        log.info("월드컵 결과 생성 contentId = {} userNo = {}", worldCupResult.getContentId(), worldCupResult.getUserNo());
+
         try {
             worldCupService.saveWorldCupResult(worldCupResult);
             log.info("월드컵 결과 저장 성공");
