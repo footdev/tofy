@@ -37,7 +37,7 @@
 		select * from attraction_info
 		where content_id in (select content_id
 		from win_cnt_by_tag
-		where tag_no in (select tag_no from select_tag where user_no = 4)
+		where tag_no in (select tag_no from select_tag where user_no = #{userNo})
 		and count >= 1)
 		limit 10;
 	</select>
