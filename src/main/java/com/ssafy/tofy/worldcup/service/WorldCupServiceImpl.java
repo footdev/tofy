@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Log4j2
 @Service
@@ -47,5 +48,10 @@ public class WorldCupServiceImpl implements WorldCupService {
     @Override
     public void deleteWorldCupByUserNo(String userNo) {
         sqlSession.getMapper(WorldCupRepository.class).deleteWorldCupByUserNo(userNo);
+    }
+
+    @Override
+    public void increaseWinCntByTag(Map<String, Object> params) {
+        sqlSession.getMapper(WorldCupRepository.class).increaseWinCntByTag(params);
     }
 }

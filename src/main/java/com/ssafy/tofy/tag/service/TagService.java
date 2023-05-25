@@ -12,4 +12,5 @@ public interface TagService {
     public void deleteTagsByUserNo(String userNo) throws Exception;
     public void saveSelectedTag(SelectTag[] selectedTags) throws Exception;
     public void updateSelectedTag(SelectTag[] selectedTags, String userNo) throws Exception;
+    public List<Tag> getUserTags(String userNo) throws Exception;
 }

@@ -11,4 +11,5 @@ public interface TagRepository {
     public List<Tag> getAllTags() throws Exception;
     public void deleteTagsByUserNo(String userNo) throws Exception;
     public void saveSelectedTag(SelectTag[] selectedTags) throws Exception;
+    public List<Tag> getUserTags(String userNo) throws Exception;
 }

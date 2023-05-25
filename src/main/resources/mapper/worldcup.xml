@@ -18,6 +18,14 @@
         insert into trip_worldcup (user_no, content_id)
         values (#{userNo}, #{contentId})
     </insert>
+    <update id="increaseWinCntByTag" parameterType="map">
+        update win_cnt_by_tag
+        set count = count + 1
+        where tag_no in
+        <foreach item="tag" index="index" collection="tags" open="(" separator="," close=")">
+            #{tag.tagNo}
+        </foreach>
+    </update>
     <delete id="deleteSelectedWorldCup" parameterType="map">
         delete from trip_worldcup
         where worldcup_no in

@@ -37,4 +37,9 @@ public class TagServiceImpl implements TagService{
         deleteTagsByUserNo(userNo);
         saveSelectedTag(selectedTags);
     }
+
+    @Override
+    public List<Tag> getUserTags(String userNo) throws Exception {
+        return sqlSession.getMapper(TagRepository.class).getUserTags(userNo);
+    }
 }

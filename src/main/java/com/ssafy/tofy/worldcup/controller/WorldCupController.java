@@ -48,6 +48,7 @@ public class WorldCupController {
                 .body(res);
     }
 
+    //유저의 월드컵 결과 리스트 조회
     @GetMapping("/worldcup/{userNo}")
     public ResponseEntity<Object> pickWorldCupResultsByUserNo(@PathVariable String userNo) {
         Response res = Response.builder()
@@ -76,6 +77,7 @@ public class WorldCupController {
                 .body(res);
     }
 
+    //월드컵 결과 저장
     @PostMapping("/worldcup")
     public ResponseEntity<Object> saveWorldCupResult(@RequestBody WorldCupResult worldCupResult) {
         Response res = Response.builder()
@@ -93,6 +95,36 @@ public class WorldCupController {
             log.error("월드컵 결과 저장 중 에러 발생 !! {}", e.getMessage());
             res.setStatus(Status.ERROR.getStatus());
             res.setMessage("worldcup result save error");
+        }
+
+        return ResponseEntity.ok()
+                .body(res);
+    }
+
+    //월드컵 우승 여행지의 우승 횟수 태그별 업데이트
+    /*
+    *
+    *@param contentId = 우승 여행지 id
+    *@param tags  = 해당 월드컵을 실행한 유저의 태그번호들 (배열)
+    *
+    */
+    @PostMapping("/worldcup/win")
+    public ResponseEntity<Object> increaseWinCntByTag(@RequestBody Map<String, Object> params) {
+        Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("success win count by tag update")
+                .data(null)
+                .build();
+
+        log.info("{}번 우승 여행지 우승 횟수 업데이트 호출", params.get("contentId"));
+
+        try {
+            worldCupService.increaseWinCntByTag(params);
+            log.info("우승 횟수 업데이트 성공");
+        } catch (Exception e) {
+            log.error("우승 횟수 업데이트 에러 {}", e.getMessage());
+            res.setStatus(Status.ERROR.getStatus());
+            res.setMessage("error win count by tag update");
         }
 
         return ResponseEntity.ok()

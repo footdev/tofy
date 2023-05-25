@@ -12,6 +12,11 @@
     <select id="getAllTags" resultMap="tagMap">
         select * from tag
     </select>
+    <select id="getUserTags" parameterType="String" resultMap="tagMap">
+        select t.tag_no, t.tag_nm from select_tag a join tag t
+        on a.tag_no = t.tag_no
+        where a.user_no = #{userNo};
+    </select>
     <delete id="deleteTagsByUserNo" parameterType="String">
         delete from select_tag where user_no = #{userNo};
     </delete>
