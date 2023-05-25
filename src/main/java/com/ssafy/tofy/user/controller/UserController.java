@@ -161,16 +161,28 @@ public class UserController {
 
     //회원정보 수정
     @PutMapping("/user")
-    public ResponseEntity<Object> update(@RequestBody User user) {
+    public ResponseEntity<Object> update(@RequestBody User user, HttpServletRequest request) {
         Response res = Response.builder()
+                .status(Status.SUCCESS.getStatus())
+                .message("user info update success")
                 .data(new HashMap<>())
                 .build();
 
         try {
             userService.update(user);
+            User ret = userService.userInfo(user.getUserId());
+            log.info("name : {}, password : {}, email : {}", ret.getUserNm(), ret.getUserPw(), ret.getEmailId());
+            String accessToken = jwtService.createAccessToken(USER_ID, user.getUserId());
+            String refreshToken = jwtService.createRefreshToken(USER_ID, user.getUserId());
 
-            res.setStatus(Status.SUCCESS.getStatus());
-            res.setMessage("user info update success");
+            userService.saveRefreshToken(user.getUserId(), refreshToken);
+
+            res.getData().put(ACCESS_TOKEN, accessToken);
+            res.getData().put(REFRESH_TOKEN, refreshToken);
+            res.getData().put("user", ret);
+
+            log.info("새로운 refresh 토큰 {}", refreshToken);
+            log.info("새로운 access 토큰 {}", accessToken);
 
         } catch (Exception e) {
             log.error("user info update error {}", e.getMessage());
