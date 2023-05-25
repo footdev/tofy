@@ -6,7 +6,8 @@
 <mapper namespace="com.ssafy.tofy.worldcup.repository.WorldCupRepository">
     <select id="pickRandomAttractions" resultType="attractionDto">
         select * from attraction_info
-        where content_type_id not in (28, 32, 38, 39)
+        where content_type_id = 12
+        and length(first_image) > 0
         order by rand()
         limit 16
     </select>
