@@ -4,6 +4,13 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.tofy.worldcup.repository.WorldCupRepository">
+	<resultMap type="worldcup" id="worldcupMap">
+        <result column="worldcup_no" property="worldCupNo"/>
+        <result column="user_no" property="userNo"/>
+        <result column="content_id" property="contentId"/>
+        <result column="worldcup_create" property="worldCupCreate"/>
+    </resultMap>
+    
     <select id="pickRandomAttractions" resultType="attractionDto">
         select * from attraction_info
         where content_type_id = 12
@@ -11,7 +18,7 @@
         order by rand()
         limit 16
     </select>
-    <select id="pickWorldCupResultsByUserNo" parameterType="String" resultType="worldcup">
+    <select id="pickWorldCupResultsByUserNo" parameterType="String" resultMap="worldcupMap">
         select * from trip_worldcup where user_no = #{userNo}
     </select>
     <insert id="saveWorldCupResult" parameterType="worldcup">

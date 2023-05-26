@@ -58,6 +58,7 @@ public class WorldCupController {
                 .build();
 
         List<WorldCupResult> list = new ArrayList<>();
+        
         try {
             list = worldCupService.pickWorldCupResultsByUserNo(userNo);
             res.getData().put("results", list);
